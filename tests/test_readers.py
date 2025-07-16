@@ -67,3 +67,31 @@ def test_filter_by_rating_less_than_4_8(reader):
     result = reader.filter_data('rating<4.8')
     for row in result:
         assert float(row['rating']) < 4.8
+
+
+def test_aggregate_avg_price(reader):
+    result = reader.aggregate_data('price=avg')
+    assert 'price' in result
+    assert abs(result['price'] - (999 + 1199 + 199 + 299) / 4) < 1e-6
+
+
+def test_aggregate_min_rating(reader):
+    result = reader.aggregate_data('rating=min')
+    assert 'rating' in result
+    assert abs(result['rating'] - 4.4) < 1e-6
+
+
+def test_aggregate_max_price(reader):
+    result = reader.aggregate_data('price=max')
+    assert 'price' in result
+    assert abs(result['price'] - 1199) < 1e-6
+
+
+def test_aggregate_with_invalid_operation_raises(reader):
+    with pytest.raises(ValueError):
+        reader.aggregate_data('price=median')
+
+
+def test_aggregate_with_invalid_format_raises(reader):
+    with pytest.raises(ValueError):
+        reader.aggregate_data('invalid_format')
