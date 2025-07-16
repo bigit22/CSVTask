@@ -6,7 +6,6 @@ class ArgParser:
     def __init__(self):
         self.args: Optional[Namespace] = None
 
-    @staticmethod
     def parse_args(self, args) -> Namespace:
         parser: ArgumentParser = ArgumentParser()
         parser.add_argument('--file', help='Path to the CSV file')
