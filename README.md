@@ -2,6 +2,7 @@
 
 ## Images
 
+![](assets/img_3.png)
 ![](assets/img_1.png)
 ![](assets/img_2.png)
 ![](assets/img.png)
@@ -59,3 +60,10 @@ python main.py --file assets/1.csv --aggregate "rating=avg"
 python main.py --file assets/1.csv --where "brand=xiaomi" --aggregate "price=avg"
 ```
 
+### if someone want to see the tests on Windows
+```powershell
+$env:PYTHONPATH="."
+```
+```bash
+pytest --cov
+```
