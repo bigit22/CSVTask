@@ -23,10 +23,11 @@ python -m venv venv
 ```
 
 ### activate virtual environment
+windows
 ```bash
 .\venv\Scripts\activate
 ```
-or
+or linux
 ```bash
 source venv/bin/activate
 ```
