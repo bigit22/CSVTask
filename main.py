@@ -5,7 +5,7 @@ from src.services import ApplicationService
 
 
 def main(args: Namespace):
-    app = ApplicationService()
+    app: ApplicationService = ApplicationService()
     app.open_csv(args.file)
 
     if args.where:
