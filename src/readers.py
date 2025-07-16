@@ -10,6 +10,7 @@ class StandardCSVReader:
         self.filepath: str = filepath
         self.data: Optional[list] = None
         self.aggregated_data: Optional[dict] = None
+        self.aggregate_operator: Optional[str] = None
 
     def read_csv(self) -> None:
         with open(self.filepath, mode='r', encoding='utf-8') as f:
@@ -69,13 +70,13 @@ class StandardCSVReader:
         except ValueError:
             return False
 
-    @staticmethod
-    def _parse_aggregate_condition(condition: str) -> tuple:
+    def _parse_aggregate_condition(self, condition: str) -> tuple:
         pattern: str = r'^\s*(\w+)\s*=\s*(avg|min|max)\s*$'
         match: re.Match = re.match(pattern, condition)
         if not match:
             raise ValueError(f'Invalid aggregate condition: {condition}')
         col, op = match.groups()
+        self.aggregate_operator = op
         return col, op
 
     @staticmethod

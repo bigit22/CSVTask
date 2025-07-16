@@ -1,25 +1,20 @@
 from argparse import Namespace
 
-from tabulate import tabulate
-
 from src.parsers import ArgParser
-from src.readers import StandardCSVReader
+from src.services import ApplicationService
 
 
 def main(args: Namespace):
-    reader = StandardCSVReader(args.file)
-    reader.read_csv()
+    app = ApplicationService()
+    app.open_csv(args.file)
 
     if args.where:
-        reader.filter_data(args.where)
+        app.filter_data(args.where)
 
     if args.aggregate:
-        data = list(reader.aggregate_data(args.aggregate).values())[0]
-        output_data = [['min'], [data]]
-        print(tabulate(output_data, tablefmt='grid'))
+        app.aggregate_data(args.aggregate)
 
-    elif reader.data:
-        print(tabulate(reader.data, headers='keys', tablefmt='psql'))
+    app.print_result()
 
 
 if __name__ == '__main__':
