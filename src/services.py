@@ -28,10 +28,8 @@ class ApplicationService:
             self.reader.filter_data(condition)
         except ValueError:
             print(f"Possible invalid condition: '{condition}'")
-            exit(1)
         except Exception as e:
-            print(f"Unexpected error: {e}")
-            exit(1)
+            print(f"Unexpected error (filtering): {e}")
 
     def aggregate_data(self, condition: str):
         try:
@@ -41,10 +39,8 @@ class ApplicationService:
             self.aggregated_output = [[self.reader.aggregate_operator], [data]]
         except ValueError:
             print(f"Possible invalid condition: '{condition}'")
-            exit(1)
         except Exception as e:
-            print(f"Unexpected error: {e}")
-            exit(1)
+            print(f"Unexpected error (aggregation): {e}")
 
     def print_result(self):
         if self.aggregated_output:
