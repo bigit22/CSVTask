@@ -9,6 +9,7 @@ class StandardCSVReader:
     def __init__(self, filepath: str, /):
         self.filepath: str = filepath
         self.data: Optional[list] = None
+        self.aggregated_data: Optional[dict] = None
 
     def read_csv(self) -> None:
         with open(self.filepath, mode='r', encoding='utf-8') as f:
@@ -23,7 +24,8 @@ class StandardCSVReader:
         column, op, value_str = self._parse_condition(condition)
         self._validate_column(column)
         filter_value = self._cast_value(value_str)
-        return [row for row in self.data if self._row_matches(row, column, op, filter_value)]
+        self.data = [row for row in self.data if self._row_matches(row, column, op, filter_value)]
+        return self.data
 
     def aggregate_data(self, condition: str) -> dict[str, float | Optional[str]]:
         column, operation = self._parse_aggregate_condition(condition)
@@ -31,10 +33,12 @@ class StandardCSVReader:
         values: list[float] = self._extract_numeric_values(column)
 
         if not values:
-            return {column: None}
+            self.aggregated_data = {column: None}
+            return self.aggregated_data
 
         result = self._compute_aggregation(values, operation)
-        return {column: result}
+        self.aggregated_data = {column: result}
+        return self.aggregated_data
 
     @staticmethod
     def _compute_aggregation(values: list[float], operation: str) -> float:

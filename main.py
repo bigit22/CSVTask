@@ -14,10 +14,12 @@ def main(args: Namespace):
         reader.filter_data(args.where)
 
     if args.aggregate:
-        pass
+        data = list(reader.aggregate_data(args.aggregate).values())[0]
+        output_data = [['min'], [data]]
+        print(tabulate(output_data, tablefmt='grid'))
 
-    if reader.data:
-        print(tabulate(reader.data, tablefmt='grid'))
+    elif reader.data:
+        print(tabulate(reader.data, headers='keys', tablefmt='psql'))
 
 
 if __name__ == '__main__':
