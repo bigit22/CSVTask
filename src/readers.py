@@ -25,10 +25,14 @@ class StandardCSVReader:
         column, op, value_str = self._parse_condition(condition)
         self._validate_column(column)
         filter_value = self._cast_value(value_str)
-        self.data = [row for row in self.data if self._row_matches(row, column, op, filter_value)]
+        self.data = [
+            row for row in self.data if self._row_matches(
+                row, column, op, filter_value)]
         return self.data
 
-    def aggregate_data(self, condition: str) -> dict[str, float | Optional[str]]:
+    def aggregate_data(self,
+                       condition: str) -> dict[str,
+                                               float | Optional[str]]:
         column, operation = self._parse_aggregate_condition(condition)
         self._validate_column(column)
         values: list[float] = self._extract_numeric_values(column)
@@ -59,7 +63,8 @@ class StandardCSVReader:
             if self._is_number(val_str):
                 values.append(float(val_str))
             else:
-                raise ValueError(f'Column "{column}" contains non-numeric data')
+                raise ValueError(
+                    f'Column "{column}" contains non-numeric data')
         return values
 
     @staticmethod
@@ -101,7 +106,8 @@ class StandardCSVReader:
         except ValueError:
             return val
 
-    def _row_matches(self, row: Row, column: str, op: str, filter_value: float| str) -> bool:
+    def _row_matches(self, row: Row, column: str, op: str,
+                     filter_value: float | str) -> bool:
         cell = row[column]
         cell_value = self._cast_value(cell)
         if isinstance(filter_value, float) and isinstance(cell_value, float):
