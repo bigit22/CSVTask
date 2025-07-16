@@ -17,6 +17,9 @@ class StandardCSVReader:
         self.data = data
 
     def filter_data(self, condition) -> list[Row]:
+        if not condition or condition.strip() == '':
+            return self.data
+
         column, op, value_str = self._parse_condition(condition)
         self._validate_column(column)
         filter_value = self._cast_value(value_str)

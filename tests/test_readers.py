@@ -51,3 +51,19 @@ def test_filter_by_nonexistent_column(reader):
 def test_filter_with_invalid_condition(reader):
     with pytest.raises(ValueError):
         reader.filter_data('invalidcondition')
+
+
+def test_filter_with_empty_condition(reader):
+    result = reader.filter_data('')
+    assert result == reader.data
+
+
+def test_filter_by_price_less_than_equal_500(reader):
+    result = reader.filter_data('price<=500')
+    assert all(float(row['price']) <= 500 for row in result)
+
+
+def test_filter_by_rating_less_than_4_8(reader):
+    result = reader.filter_data('rating<4.8')
+    for row in result:
+        assert float(row['rating']) < 4.8
