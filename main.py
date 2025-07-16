@@ -7,7 +7,7 @@ from src.readers import StandardCSVReader
 
 
 def main(args: Namespace):
-    reader = StandardCSVReader('assets/1.csv')
+    reader = StandardCSVReader(args.file)
     reader.read_csv()
 
     if args.where:

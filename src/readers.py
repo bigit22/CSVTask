@@ -20,7 +20,6 @@ class StandardCSVReader:
         column, op, value_str = self._parse_condition(condition)
         self._validate_column(column)
         filter_value = self._cast_value(value_str)
-        print(self.data)
         return [row for row in self.data if self._row_matches(row, column, op, filter_value)]
 
     def aggregate_data(self, condition: str) -> dict[str, float | Optional[str]]:
